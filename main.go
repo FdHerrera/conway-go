@@ -19,6 +19,7 @@ type grid [][]int
 type Game struct{}
 
 func (g Game) Update(screen *ebiten.Image) error {
+	gridState = calcNextGen(gridState)
 	return nil
 }
 
@@ -29,7 +30,6 @@ func (g Game) Draw(screen *ebiten.Image) {
 			screen.Set(row, col, color.Black)
 		}
 	}, gridState)
-	gridState = calcNextGen(gridState)
 }
 
 func (g Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
