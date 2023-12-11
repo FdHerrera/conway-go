@@ -1,20 +1,50 @@
 package main
 
 import (
+	"image/color"
 	"log"
 	"math/rand"
+
+	"github.com/hajimehoshi/ebiten"
+)
+
+var (
+	gridState grid
+	height    int = 600
+	width     int = 800
 )
 
 type grid [][]int
 
-var (
-	width  = 1980
-	height = 1200
-)
+type Game struct{}
+
+func (g Game) Update(screen *ebiten.Image) error {
+	return nil
+}
+
+func (g Game) Draw(screen *ebiten.Image) {
+	screen.Fill(color.White)
+	applyToEach(func(grid [][]int, row, col int) {
+		if grid[row][col] == 1 {
+			screen.Set(row, col, color.Black)
+		}
+	}, gridState)
+	gridState = calcNextGen(gridState)
+}
+
+func (g Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
+	return width, height
+}
 
 func main() {
-	grid := initGrid()
-	log.Print(grid)
+	gridState = initGrid()
+	ebiten.SetWindowSize(width, height)
+	ebiten.SetWindowTitle("Conway's Game of Life by FdHerrera")
+	game := Game{}
+	err := ebiten.RunGame(game)
+	if err != nil {
+		log.Fatalf("Fail while running game: [%d]", err)
+	}
 }
 
 func initGrid() grid {

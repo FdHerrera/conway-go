@@ -8,13 +8,13 @@ import (
 func Test_initGrid(t *testing.T) {
 	grid := initGrid()
 
-	if len(grid) != 1980 {
-		t.Error("Should have 1980 default rows")
+	if len(grid) != 800 {
+		t.Error("Should have 800 default cols")
 	}
 
 	for _, col := range grid {
-		if len(col) != 1200 {
-			t.Error("Each col should default 1200 cols")
+		if len(col) != 600 {
+			t.Error("Each col should default 600 rows")
 		}
 	}
 
@@ -27,15 +27,15 @@ func Test_initGrid(t *testing.T) {
 		t.Error("Should have 10 cols")
 	}
 
-	colsWithTenRows := false
+	colsWithTenRows := true
 
 	for _, col := range grid {
 		if len(col) != 10 {
-			colsWithTenRows = true
+			colsWithTenRows = false
 		}
 	}
 
-	if colsWithTenRows {
+	if !colsWithTenRows {
 		t.Error("Each col should have 10 rows")
 	}
 }
